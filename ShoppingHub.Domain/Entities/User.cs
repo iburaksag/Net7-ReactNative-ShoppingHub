@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ShoppingHub.Domain.Entities.Common;
+﻿using ShoppingHub.Domain.Entities.Common;
 
 namespace ShoppingHub.Domain.Entities
 {
-    public class User : BaseEntity
+    public sealed class User : BaseEntity
     {
         public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }

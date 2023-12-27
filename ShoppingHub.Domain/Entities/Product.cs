@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ShoppingHub.Domain.Entities.Common;
+﻿using ShoppingHub.Domain.Entities.Common;
 
 namespace ShoppingHub.Domain.Entities
 {

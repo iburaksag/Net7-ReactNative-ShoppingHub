@@ -1,13 +1,11 @@
-﻿using System;
-using FluentValidation;
-using ShoppingHub.Domain.Entities;
+﻿using FluentValidation;
 
-namespace ShoppingHub.Application.Validations
+namespace ShoppingHub.Application.Products.Commands.UpdateProduct
 {
-	public class ProductValidator : AbstractValidator<Product>
+	public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
     {
-        public ProductValidator()
-        {
+		public UpdateProductCommandValidator()
+		{
             RuleFor(product => product.ProductName)
                 .NotEmpty().WithMessage("Product name is required.")
                 .MaximumLength(100).WithMessage("Product name cannot exceed 100 characters.");
@@ -25,6 +23,6 @@ namespace ShoppingHub.Application.Validations
             RuleFor(product => product.Description)
                 .MaximumLength(1000).WithMessage("Description cannot exceed 1000 characters.");
         }
-    }
+	}
 }
 

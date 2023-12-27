@@ -18,6 +18,8 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="DTO\" />
@@ -25,6 +27,17 @@
     <None Remove="Validations\DTO\" />
     <None Remove="Abstractions\" />
     <None Remove="Abstractions\Services\" />
+    <None Remove="Products\" />
+    <None Remove="Baskets\" />
+    <None Remove="BasketDetails\" />
+    <None Remove="Products\Commands\" />
+    <None Remove="Products\Queries\" />
+    <None Remove="Products\Commands\CreateProduct\" />
+    <None Remove="Products\Commands\UpdateProduct\" />
+    <None Remove="Products\Commands\DeleteProduct\" />
+    <None Remove="Products\Queries\GetAllProducts\" />
+    <None Remove="Products\Queries\GetProductById\" />
+    <None Remove="Mapping\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\" />
@@ -32,5 +45,16 @@
     <Folder Include="Validations\DTO\" />
     <Folder Include="Abstractions\" />
     <Folder Include="Abstractions\Services\" />
+    <Folder Include="Products\" />
+    <Folder Include="Baskets\" />
+    <Folder Include="BasketDetails\" />
+    <Folder Include="Products\Commands\" />
+    <Folder Include="Products\Queries\" />
+    <Folder Include="Products\Commands\CreateProduct\" />
+    <Folder Include="Products\Commands\UpdateProduct\" />
+    <Folder Include="Products\Commands\DeleteProduct\" />
+    <Folder Include="Products\Queries\GetAllProducts\" />
+    <Folder Include="Products\Queries\GetProductById\" />
+    <Folder Include="Mapping\" />
   </ItemGroup>
 </Project>

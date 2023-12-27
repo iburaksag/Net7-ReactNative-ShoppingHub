@@ -14,6 +14,7 @@ public static class DependencyInjection
             configuration.AsScoped(),
             assembly);
 
+        services.AddAutoMapper(assembly);
         services.AddValidatorsFromAssembly(assembly);
 
         return services;
