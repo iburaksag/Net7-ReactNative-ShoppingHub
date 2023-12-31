@@ -2,11 +2,10 @@
 namespace ShoppingHub.Application.DTO
 {
 	public record ProductDto(
-                    int Id,
                     string ProductName,
 					string ProductCode,
-					decimal UnitPrice,
+					double UnitPrice,
 					string Category,
-					string Description);
+					string? Description);
 }
 

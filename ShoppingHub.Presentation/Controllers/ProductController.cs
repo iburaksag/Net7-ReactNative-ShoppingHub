@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingHub.Application.Products.Commands.CreateProduct;
+using ShoppingHub.Application.Products.Commands.DeleteProduct;
 using ShoppingHub.Application.Products.Commands.UpdateProduct;
 using ShoppingHub.Application.Products.Queries.GetAllProducts;
 using ShoppingHub.Application.Products.Queries.GetProductById;
@@ -63,14 +64,13 @@ namespace ShoppingHub.Presentation.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand createProductCommand)
         {
             try
             {
                 var createdProduct = await _mediator.Send(createProductCommand);
-                return CreatedAtAction(nameof(GetProductById), new { id = createdProduct.Id }, createdProduct);
+                return Ok(createdProduct);
             }
             catch (ValidationException ex)
             {
@@ -88,6 +88,7 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 updateProductCommand.Id = id;
+                updateProductCommand.UpdatedAt = DateTime.UtcNow;
                 var updatedProduct = await _mediator.Send(updateProductCommand);
                 return Ok(updatedProduct);
             }
@@ -104,6 +105,25 @@ namespace ShoppingHub.Presentation.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteProductCommand(id));
+                return Ok(); 
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
     }
 }
 

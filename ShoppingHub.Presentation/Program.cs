@@ -2,26 +2,25 @@
 using ShoppingHub.Infrastructure.Data;
 using ShoppingHub.Application;
 using ShoppingHub.Infrastructure;
-using ShoppingHub.Domain.Repositories;
-using ShoppingHub.Infrastructure.Repositories;
-using FluentValidation;
-using ShoppingHub.Application.Validations;
-using ShoppingHub.Domain.Entities;
-using ShoppingHub.Application.DTO;
-using ShoppingHub.Application.Validations.DTO;
-using ShoppingHub.Application.Abstractions.Services;
-using ShoppingHub.Domain.Repositories.Common;
-using ShoppingHub.Infrastructure.Repositories.Common;
-using ShoppingHub.Infrastructure.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Register built-in .NET Core session management.
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout as needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // DI
 builder.Services.AddApplication().AddInfrastructure();
@@ -35,6 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseSession();
 
 app.UseAuthorization();
 

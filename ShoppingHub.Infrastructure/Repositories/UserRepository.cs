@@ -13,6 +13,11 @@ namespace ShoppingHub.Infrastructure.Repositories
         {
         }
 
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<User> GetByUsernameAsync(string username)
         {
             return await _dbContext.Users.SingleOrDefaultAsync(u => u.UserName == username);

@@ -5,7 +5,8 @@ namespace ShoppingHub.Domain.Repositories
 {
 	public interface IBasketRepository : IBaseRepository<Basket>
 	{
-		Task<Basket> GetByUserIdAsync(int userId);
-	}
+		Task<List<Basket>> GetBasketsByUserIdAsync(int userId);
+        Task<List<Basket>> GetBasketsByUserIdWithOrderAsync(int userId);
+    }
 }
 

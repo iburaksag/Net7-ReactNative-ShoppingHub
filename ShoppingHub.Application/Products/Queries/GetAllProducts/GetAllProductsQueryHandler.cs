@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using ShoppingHub.Application.DTO;
+using ShoppingHub.Domain.Entities;
 using ShoppingHub.Domain.Repositories;
 
 namespace ShoppingHub.Application.Products.Queries.GetAllProducts
@@ -21,9 +22,12 @@ namespace ShoppingHub.Application.Products.Queries.GetAllProducts
         {
             var products = await _productRepository.GetAllAsync();
 
-            var productDtoList = _mapper.Map<List<ProductDto>>(products);
+            if (products == null)
+                throw new InvalidOperationException("No products found.");
 
-            return productDtoList;
+            var productsDto = _mapper.Map<List<ProductDto>>(products);
+
+            return productsDto;
         }
     }
 }

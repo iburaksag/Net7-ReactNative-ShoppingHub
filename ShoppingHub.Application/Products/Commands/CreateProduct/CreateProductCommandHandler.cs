@@ -2,7 +2,6 @@
 using FluentValidation;
 using MediatR;
 using ShoppingHub.Application.DTO;
-using ShoppingHub.Application.Validations;
 using ShoppingHub.Domain.Entities;
 using ShoppingHub.Domain.Repositories;
 using ShoppingHub.Domain.Repositories.Common;

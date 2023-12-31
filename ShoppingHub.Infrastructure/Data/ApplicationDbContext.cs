@@ -1,12 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShoppingHub.Domain.Entities;
 
 namespace ShoppingHub.Infrastructure.Data
 {
 	public class ApplicationDbContext : DbContext
 	{
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }

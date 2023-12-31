@@ -37,17 +37,15 @@ namespace ShoppingHub.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("IPAddress")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("OrderAddress")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("OrderDate")
+                    b.Property<DateTime?>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double>("OrderTotal")
+                    b.Property<double?>("OrderTotal")
                         .HasColumnType("double precision");
 
                     b.Property<int>("Status")
@@ -130,8 +128,8 @@ namespace ShoppingHub.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("numeric");
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

@@ -3,7 +3,6 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using ShoppingHub.Application.DTO;
-using ShoppingHub.Application.Validations;
 using ShoppingHub.Domain.Repositories;
 using ShoppingHub.Domain.Repositories.Common;
 
@@ -33,7 +32,6 @@ namespace ShoppingHub.Application.Products.Commands.UpdateProduct
             {
                 throw new ValidationException(validationResult.Errors);
             }
-
             
             var existingProduct = await _productRepository.GetByIdAsync(request.Id);
 

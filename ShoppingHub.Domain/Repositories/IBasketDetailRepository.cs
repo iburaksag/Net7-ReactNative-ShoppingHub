@@ -5,8 +5,8 @@ namespace ShoppingHub.Domain.Repositories
 {
 	public interface IBasketDetailRepository : IBaseRepository<BasketDetail>
 	{
-        Task<IEnumerable<BasketDetail>> GetByBasketIdAsync(int basketId);
-        Task<IEnumerable<BasketDetail>> GetByProductIdAsync(int productId);
+        Task<ICollection<BasketDetail>> GetByBasketIdAsync(int basketId);
+        Task<ICollection<BasketDetail>> GetByProductIdAsync(int productId);
     }
 }
 
