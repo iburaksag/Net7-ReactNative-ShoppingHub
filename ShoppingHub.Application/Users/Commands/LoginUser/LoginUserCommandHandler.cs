@@ -29,7 +29,7 @@ namespace ShoppingHub.Application.Users.Commands.LoginUser
 
             if (user == null || !VerifyPassword(request.loginDto.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return new AuthResult { Success = false, Message = "Invalid username or password" };
+                return new AuthResult { Success = false, Message = "Invalid email or password" };
             }
 
             return new AuthResult { Success = true, User = user };

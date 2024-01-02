@@ -14,10 +14,12 @@ namespace ShoppingHub.Presentation.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(IMediator mediator)
+        public ProductController(IMediator mediator, ILogger<ProductController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -26,18 +28,24 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 var query = new GetAllProductsQuery();
-                return Ok(await _mediator.Send(query));
+                var result = await _mediator.Send(query);
+
+                _logger.LogInformation("GetAllProducts successful.");
+                return Ok(result);
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, "Validation error in GetAllProducts: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Errors);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Not Found error in GetAllProducts: {ErrorMessage}", ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in GetAllProducts: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -48,18 +56,24 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 var query = new GetProductByIdQuery(id);
-                return Ok(await _mediator.Send(query));
+                var result = await _mediator.Send(query);
+
+                _logger.LogInformation("GetProductById successful. ProductId: {ProductId}", id);
+                return Ok(result);
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, "Validation error in GetProductById: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Errors);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Error in GetProductById: {ErrorMessage}", ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in GetProductById: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -70,14 +84,17 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 var createdProduct = await _mediator.Send(createProductCommand);
+                _logger.LogInformation("CreateProduct successful.");
                 return Ok(createdProduct);
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, "Validation error in CreateProduct: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Errors);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in CreateProduct: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -90,18 +107,23 @@ namespace ShoppingHub.Presentation.Controllers
                 updateProductCommand.Id = id;
                 updateProductCommand.UpdatedAt = DateTime.UtcNow;
                 var updatedProduct = await _mediator.Send(updateProductCommand);
+
+                _logger.LogInformation("UpdateProduct successful. ProductId: {ProductId}", id);
                 return Ok(updatedProduct);
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, "Validation error in UpdateProduct: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Errors);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Error in UpdateProduct: {ErrorMessage}", ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in UpdateProduct: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -112,14 +134,17 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 await _mediator.Send(new DeleteProductCommand(id));
+                _logger.LogInformation("DeleteProduct successful. ProductId: {ProductId}", id);
                 return Ok(); 
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Error in DeleteProduct: {ErrorMessage}", ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in DeleteProduct: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }

@@ -5,6 +5,7 @@ using ShoppingHub.Application.Baskets.Commands.CreateBasket;
 using ShoppingHub.Application.Baskets.Commands.UpdateBasket;
 using ShoppingHub.Application.Baskets.Queries.GetBasketsByUserId;
 using ShoppingHub.Application.Baskets.Queries.GetBasketTotalPrice;
+using ShoppingHub.Application.DTO;
 
 namespace ShoppingHub.Presentation.Controllers
 {
@@ -13,10 +14,12 @@ namespace ShoppingHub.Presentation.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<BasketController> _logger;
 
-        public BasketController(IMediator mediator)
+        public BasketController(IMediator mediator, ILogger<BasketController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet("list")]
@@ -26,14 +29,19 @@ namespace ShoppingHub.Presentation.Controllers
             {
                 var userId = HttpContext.Session.GetInt32("SessionBasketId");
                 var query = new GetBasketsByUserIdQuery(userId ?? 0);
-                return Ok(await _mediator.Send(query));
+                var result = await _mediator.Send(query);
+
+                _logger.LogInformation($"GetBasketsByUserId for User {userId} successful.");
+                return Ok(result);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Error in getting user's basket list {ErrorMessage}", ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in getting user's basket list  {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -45,14 +53,19 @@ namespace ShoppingHub.Presentation.Controllers
             {
                 var basketId = HttpContext.Session.GetInt32("SessionBasketId");
                 var query = new GetCurrentBasketTotalPriceCommand(basketId ?? 0);
-                return Ok(await _mediator.Send(query));
+                var result = await _mediator.Send(query);
+
+                _logger.LogInformation("Getting current basket total is successful.");
+                return Ok(result);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Error in GetCurrentBasketTotalPrice: {ErrorMessage}", ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in GetCurrentBasketTotalPrice: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -67,16 +80,18 @@ namespace ShoppingHub.Presentation.Controllers
                 var basketId = await _mediator.Send(createBasketCommand);
 
                 HttpContext.Session.SetInt32("SessionBasketId", basketId);
+
+                _logger.LogInformation("CreateBasket successful. BasketId: {BasketId}", basketId);
                 return Ok(new { BasketId = basketId });
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, "Validation error in CreateBasket: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Errors);
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.ToString());
-                //throw;
+                _logger.LogError(ex, "Error in CreateBasket: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
@@ -87,17 +102,23 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 if (basketId != updateBasketCommand.BasketId)
+                {
+                    _logger.LogError("Mismatched basket ID in UpdateBasket.");
                     return BadRequest("Mismatched basket ID in the request.");
+                }
 
                 var updatedBasket = await _mediator.Send(updateBasketCommand);
+                _logger.LogInformation("UpdateBasket successful. BasketId: {BasketId}", basketId);
                 return Ok(updatedBasket);
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, "Validation error in UpdateBasket: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Errors);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error in UpdateBasket: {ErrorMessage}", ex.Message);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
