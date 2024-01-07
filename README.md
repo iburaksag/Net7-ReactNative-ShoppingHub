@@ -1,6 +1,8 @@
 # ShoppingHub
 
-ShoppingHub is a full-stack shopping cart application that enables users to add products to basket, manage their shopping carts, and place the orders. The project is built using .NET Core for the backend API with Clean Architecture principles and React Native Expo for the frontend.
+> #csharp #netcore #restapi #reactnative #expo #postgresql #javascript 
+
+ShoppingHub is a full-stack mobile shopping cart application that enables users to add products to basket, manage their shopping carts, and place the orders. The project is built using .NET Core for the backend API with Clean Architecture principles and React Native Expo for the frontend.
 
 ## Features
 
