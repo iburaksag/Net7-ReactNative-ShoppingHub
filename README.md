@@ -1,6 +1,6 @@
 # ShoppingHub
 
-ShoppingHub is a full-stack e-commerce application that enables users to shop for products, manage their shopping carts, and place orders. The project is built using .NET Core for the backend API with Clean Architecture principles and React Native Expo for the frontend.
+ShoppingHub is a full-stack shopping cart application that enables users to add products to basket, manage their shopping carts, and place the orders. The project is built using .NET Core for the backend API with Clean Architecture principles and React Native Expo for the frontend.
 
 ## Features
 
@@ -37,7 +37,7 @@ ShoppingHub is a full-stack e-commerce application that enables users to shop fo
 
 1. Clone the repository.
    ```bash
-   git clone https://github.com/your-username/ShoppingHub.git
+   git clone https://github.com/iburaksag/dotnet7-ShoppingHub.git
    cd ShoppingHub/Backend
 
 2. Create a PostgreSQL database and update the connection string in appsettings.json.
