@@ -26,7 +26,7 @@ namespace ShoppingHub.Application.Users.Commands.CreateUser
             if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
-                return new AuthResult { Success = false, Message = "Validation failed", Errors = errors };
+                return new AuthResult { Success = false, Message = "Invalid email or password", Errors = errors };
             }
 
             if (await _userRepository.IsUsernameTakenAsync(request.registerDto.UserName))
@@ -60,7 +60,7 @@ namespace ShoppingHub.Application.Users.Commands.CreateUser
         }
 
         //Hashing
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
             {

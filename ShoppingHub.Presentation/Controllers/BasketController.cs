@@ -5,7 +5,6 @@ using ShoppingHub.Application.Baskets.Commands.CreateBasket;
 using ShoppingHub.Application.Baskets.Commands.UpdateBasket;
 using ShoppingHub.Application.Baskets.Queries.GetBasketsByUserId;
 using ShoppingHub.Application.Baskets.Queries.GetBasketTotalPrice;
-using ShoppingHub.Application.DTO;
 
 namespace ShoppingHub.Presentation.Controllers
 {
@@ -27,7 +26,7 @@ namespace ShoppingHub.Presentation.Controllers
         {
             try
             {
-                var userId = HttpContext.Session.GetInt32("SessionBasketId");
+                var userId = HttpContext.Session.GetInt32("SessionUserId");
                 var query = new GetBasketsByUserIdQuery(userId ?? 0);
                 var result = await _mediator.Send(query);
 
@@ -46,7 +45,7 @@ namespace ShoppingHub.Presentation.Controllers
             }
         }
 
-        [HttpGet("{basketId}/orderTotal")]
+        [HttpGet("orderTotal")]
         public async Task<IActionResult> GetCurrentBasketTotalPrice()
         {
             try
@@ -76,10 +75,14 @@ namespace ShoppingHub.Presentation.Controllers
             try
             {
                 var userId = HttpContext.Session.GetInt32("SessionUserId");
-                var createBasketCommand = new CreateBasketCommand(userId ?? 0);
-                var basketId = await _mediator.Send(createBasketCommand);
+                var basketId = HttpContext.Session.GetInt32("SessionBasketId");
 
-                HttpContext.Session.SetInt32("SessionBasketId", basketId);
+                if (basketId == 0)
+                {
+                    var createBasketCommand = new CreateBasketCommand(userId ?? 0);
+                    basketId = await _mediator.Send(createBasketCommand);
+                    HttpContext.Session.SetInt32("SessionBasketId", basketId.Value);
+                }
 
                 _logger.LogInformation("CreateBasket successful. BasketId: {BasketId}", basketId);
                 return Ok(new { BasketId = basketId });
@@ -96,20 +99,20 @@ namespace ShoppingHub.Presentation.Controllers
             }
         }
 
-        [HttpPut("{basketId}")]
-        public async Task<IActionResult> UpdateBasket(int basketId, [FromBody] UpdateBasketCommand updateBasketCommand)
+        [HttpPut("complete")]
+        public async Task<IActionResult> UpdateBasket([FromBody] UpdateBasketCommand updateBasketCommand)
         {
             try
             {
-                if (basketId != updateBasketCommand.BasketId)
-                {
-                    _logger.LogError("Mismatched basket ID in UpdateBasket.");
-                    return BadRequest("Mismatched basket ID in the request.");
-                }
+                var basketId = HttpContext.Session.GetInt32("SessionBasketId");
+                updateBasketCommand = updateBasketCommand with { BasketId = basketId ?? 0 };
+                var result = await _mediator.Send(updateBasketCommand);
 
-                var updatedBasket = await _mediator.Send(updateBasketCommand);
+                if (result != null)
+                    HttpContext.Session.SetInt32("SessionBasketId", 0);
+
                 _logger.LogInformation("UpdateBasket successful. BasketId: {BasketId}", basketId);
-                return Ok(updatedBasket);
+                return Ok(result);
             }
             catch (ValidationException ex)
             {

@@ -56,9 +56,9 @@ namespace ShoppingHub.Presentation.Controllers
                     _logger.LogError("Login failed for user {Email}", loginDto.Email);
                     return Unauthorized(new { Message = authResult.Message, Errors = authResult.Errors });
                 }
-
-                // Store user ID in session
-                HttpContext.Session.SetInt32("UserId", authResult.User.Id);
+                
+                HttpContext.Session.SetInt32("SessionUserId", authResult.User.Id);
+                HttpContext.Session.SetInt32("SessionBasketId", 0);
 
                 _logger.LogInformation("User {Email} logged in successfully", loginDto.Email);
                 return Ok(authResult.User);
@@ -69,6 +69,8 @@ namespace ShoppingHub.Presentation.Controllers
                 return StatusCode(500, new { Message = "Internal Server Error" });
             }
         }
+
+
     }
 
 }

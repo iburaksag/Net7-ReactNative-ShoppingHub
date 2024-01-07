@@ -1,5 +1,4 @@
 ﻿using ShoppingHub.Domain.Entities.Common;
-using ShoppingHub.Domain.Enums;
 
 namespace ShoppingHub.Domain.Entities
 {

@@ -54,6 +54,7 @@
     <None Remove="BasketDetails\Commands\DeleteBasketDetail\" />
     <None Remove="Baskets\Queries\GetCurrentBasketTotalPrice\" />
     <None Remove="BasketDetails\Queries\GetCurrentBasketDetails\" />
+    <None Remove="BasketDetails\Queries\GetBasketDetailsByBasketId\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\" />
@@ -85,5 +86,6 @@
     <Folder Include="BasketDetails\Commands\DeleteBasketDetail\" />
     <Folder Include="Baskets\Queries\GetCurrentBasketTotalPrice\" />
     <Folder Include="BasketDetails\Queries\GetCurrentBasketDetails\" />
+    <Folder Include="BasketDetails\Queries\GetBasketDetailsByBasketId\" />
   </ItemGroup>
 </Project>

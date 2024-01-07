@@ -1,6 +1,4 @@
-﻿using System;
-using FluentValidation;
-using ShoppingHub.Application.Products.Commands.UpdateProduct;
+﻿using FluentValidation;
 
 namespace ShoppingHub.Application.Baskets.Commands.UpdateBasket
 {
@@ -9,7 +7,9 @@ namespace ShoppingHub.Application.Baskets.Commands.UpdateBasket
 		public UpdateBasketCommandValidator()
 		{
             RuleFor(basket => basket.OrderAddress)
-                .MaximumLength(255).WithMessage("Order address cannot exceed 500 characters.");
+                 .NotEmpty()
+                 .MaximumLength(255)
+                 .WithMessage("Order address cannot exceed 500 characters.");
 
             RuleFor(basket => basket.OrderTotal)
                 .NotEmpty().WithMessage("Order Total is required.")

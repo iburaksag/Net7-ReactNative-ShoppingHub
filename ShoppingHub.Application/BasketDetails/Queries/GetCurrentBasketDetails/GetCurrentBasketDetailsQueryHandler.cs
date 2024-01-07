@@ -19,7 +19,7 @@ namespace ShoppingHub.Application.BasketDetails.Queries.GetCurrentBasketDetails
         public async Task<List<BasketDetailDto>> Handle(GetCurrentBasketDetailsQuery request, CancellationToken cancellationToken)
         {
             var currentBasketDetails = await _basketDetailRepository.GetByBasketIdAsync(request.BasketId);
-
+                
             if (currentBasketDetails == null)
                 throw new InvalidOperationException("No basket details found.");
 

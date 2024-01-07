@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingHub.Application.BasketDetails.Commands.CreateBasketDetail;
 using ShoppingHub.Application.BasketDetails.Commands.DeleteBasketDetail;
+using ShoppingHub.Application.BasketDetails.Queries.GetBasketDetailsByBasketId;
 using ShoppingHub.Application.BasketDetails.Queries.GetCurrentBasketDetails;
 
 namespace ShoppingHub.Presentation.Controllers
@@ -45,6 +46,31 @@ namespace ShoppingHub.Presentation.Controllers
             }
         }
 
+
+        [HttpGet("{basketId}")]
+        public async Task<IActionResult> GetBasketDetailsByBasketId(int basketId)
+        {
+            try
+            {
+                var query = new GetBasketDetailsByBasketIdQuery(basketId);
+                var result = await _mediator.Send(query);
+
+                _logger.LogInformation($"GetBasketDetailsByBasketId for Basket {basketId} successful.");
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Error in getting user's basket list {ErrorMessage}", ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in getting user's basket list  {ErrorMessage}", ex.Message);
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
+
         //ASLINDA BU ADDING PRODUCT TO BASKET
         [HttpPost]
         public async Task<IActionResult> CreateBasketDetail([FromBody] CreateBasketDetailCommand createBasketDetailCommand)
@@ -71,7 +97,7 @@ namespace ShoppingHub.Presentation.Controllers
         }
 
         //REMOVE PRODUCT FROM BASKET
-        [HttpDelete("{Id}")]
+        [HttpDelete("{basketDetailId}")]
         public async Task<IActionResult> DeleteBasketDetail(int basketDetailId)
         {
             try
@@ -82,12 +108,12 @@ namespace ShoppingHub.Presentation.Controllers
                 if (isDeleted)
                 {
                     _logger.LogInformation("DeleteBasketDetail successful. BasketDetailId: {BasketDetailId}", basketDetailId);
-                    return Ok(new { Message = "BasketDetail successfully removed." });
+                    return Ok(new { Message = "BasketDetail successfully removed.", Success = true });
                 }
                 else
                 {
                     _logger.LogWarning("DeleteBasketDetail failed. BasketDetailId: {BasketDetailId}", basketDetailId);
-                    return NotFound(new { Message = "BasketDetail not found or unable to remove." });
+                    return NotFound(new { Message = "BasketDetail not found or unable to remove.", Success = false });
                 }
             }
             catch (Exception ex)

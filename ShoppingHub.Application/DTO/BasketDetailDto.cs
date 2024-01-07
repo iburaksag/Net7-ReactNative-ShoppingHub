@@ -1,12 +1,10 @@
-﻿using ShoppingHub.Domain.Enums;
-
-namespace ShoppingHub.Application.DTO
+﻿namespace ShoppingHub.Application.DTO
 {
     public record BasketDetailDto(
+                    int Id,
                     int BasketId,
                     int ProductId,
                     int Quantity,
-                    Status Status,
                     DateTime CreatedAt);
 }
 

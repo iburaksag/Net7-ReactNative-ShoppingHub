@@ -3,7 +3,6 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using ShoppingHub.Application.DTO;
-using ShoppingHub.Application.Products.Commands.UpdateProduct;
 using ShoppingHub.Domain.Repositories;
 using ShoppingHub.Domain.Repositories.Common;
 
@@ -28,9 +27,7 @@ namespace ShoppingHub.Application.Baskets.Commands.UpdateBasket
         {
             var validationResult = await new UpdateBasketCommandValidator().ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
-            {
                 throw new ValidationException(validationResult.Errors);
-            }
 
             var currentBasket = await _basketRepository.GetByIdAsync(request.BasketId);
 
@@ -40,6 +37,7 @@ namespace ShoppingHub.Application.Baskets.Commands.UpdateBasket
             currentBasket.IPAddress = _httpContextAccessor?.HttpContext.Connection.RemoteIpAddress?.ToString();
             currentBasket.OrderAddress = request.OrderAddress;
             currentBasket.OrderDate = DateTime.UtcNow;
+            currentBasket.UpdatedAt = DateTime.UtcNow;
             currentBasket.OrderTotal = request.OrderTotal;
             currentBasket.Status = Domain.Enums.Status.Completed;
 

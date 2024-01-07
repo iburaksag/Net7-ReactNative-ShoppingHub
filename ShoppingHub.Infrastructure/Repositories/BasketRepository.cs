@@ -21,7 +21,7 @@ namespace ShoppingHub.Infrastructure.Repositories
         public async Task<List<Basket>> GetBasketsByUserIdWithOrderAsync(int userId)
         {
             var baskets = await GetBasketsByUserIdAsync(userId);
-            var sortedBaskets = baskets.OrderByDescending(b => b.CreatedAt).ToList();
+            var sortedBaskets = baskets.Where(b => b.Status == Status.Completed).OrderByDescending(b => b.CreatedAt).ToList();
             return sortedBaskets;
         }
     }

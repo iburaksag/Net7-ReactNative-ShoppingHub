@@ -20,9 +20,7 @@ namespace ShoppingHub.Application.BasketDetails.Commands.DeleteBasketDetail
             var basketDetail = await _basketDetailRepository.GetByIdAsync(request.Id);
 
             if (basketDetail == null)
-            {
                 throw new ApplicationException("BasketDetail not found");
-            }
 
             await _basketDetailRepository.DeleteAsync(basketDetail);
             await _unitOfWork.SaveChangesAsync();

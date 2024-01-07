@@ -1,8 +1,6 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using ShoppingHub.Application.DTO;
-using ShoppingHub.Domain.Entities;
 using ShoppingHub.Domain.Repositories;
 
 namespace ShoppingHub.Application.Products.Queries.GetAllProducts

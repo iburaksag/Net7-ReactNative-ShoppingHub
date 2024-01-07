@@ -1,11 +1,10 @@
-﻿using System;
-namespace ShoppingHub.Domain.Enums
+﻿namespace ShoppingHub.Domain.Enums
 {
 	public enum Status
 	{
-		Cancelled,
-        InProcess,
-        Completed
+		Cancelled = 0,
+        InProcess = 1,
+        Completed = 2
 	}
 }
 

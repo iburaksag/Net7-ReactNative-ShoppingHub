@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentValidation;
-using ShoppingHub.Application.Products.Commands.CreateProduct;
+
 
 namespace ShoppingHub.Application.BasketDetails.Commands.CreateBasketDetail
 {

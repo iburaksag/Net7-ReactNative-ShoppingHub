@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using ShoppingHub.Domain.Entities;
 using ShoppingHub.Domain.Repositories;
 using ShoppingHub.Domain.Repositories.Common;

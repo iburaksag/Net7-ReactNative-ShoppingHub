@@ -24,7 +24,7 @@ namespace ShoppingHub.Application.Baskets.Queries.GetBasketTotalPrice
             foreach (var basketDetail in basketDetails)
             {
                 var product = await _productRepository.GetByIdAsync(basketDetail.ProductId);
-                orderTotal = product.UnitPrice * basketDetail.Quantity;
+                orderTotal += product.UnitPrice * basketDetail.Quantity;
             }
 
             return orderTotal;
