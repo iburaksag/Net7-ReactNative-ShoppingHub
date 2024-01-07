@@ -39,8 +39,7 @@ ShoppingHub is a full-stack mobile shopping cart application that enables users 
 
 1. Clone the repository.
    ```bash
-   git clone https://github.com/iburaksag/dotnet7-ShoppingHub.git
-   cd ShoppingHub/Backend
+   git clone https://github.com/iburaksag/dotnet7-ShoppingHub.git   
 
 2. Create a PostgreSQL database and update the connection string in appsettings.json.
    
