@@ -41,6 +41,34 @@ ShoppingHub is a full-stack e-commerce application that enables users to shop fo
    cd ShoppingHub/Backend
 
 2. Create a PostgreSQL database and update the connection string in appsettings.json.
+   
 3. Apply migrations to create the database
-4. 
+   ```bash
+   dotnet ef database update
+   
+4. Run the API.
+   ```bash
+   dotnet run
+
+### Frontend Setup
+
+1. Navigate to the Frontend directory.
+   ```bash
+   cd ../ShoppingHubUI
+   
+2. Install dependencies.
+   ```bash
+   npm install
+
+3. Start the Expo project.
+   ```bash
+   npx expo start   
+
+## Usage
+
+1. Register or log in to start shopping.
+2. Create a new basket and add products to the basket.
+3. Review and finalize your cart to create an order.
+4. Click Complete Order and create the basket.
+5. Explore the list of created baskets and view details if needed.
 
