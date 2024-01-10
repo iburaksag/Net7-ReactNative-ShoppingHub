@@ -16,7 +16,7 @@ namespace ShoppingHub.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ShoppingHubDB;User Id=postgres;Password=Iavenjq97*;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=******;User Id=******;Password=*****;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
